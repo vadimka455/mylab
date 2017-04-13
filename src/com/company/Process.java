@@ -1,7 +1,6 @@
 package com.company;
 
 
-
 import java.util.LinkedList;
 import java.util.Scanner;
 
@@ -10,8 +9,8 @@ public class Process {
         Steal steal = new Steal();
         Scanner sc = new Scanner(System.in);
         String filename = System.getenv("S_PATH");
-        Runtime.getRuntime().addShutdownHook(new Thread(()->System.out.println("\n"+Commands.save(steal.clubni, filename))));
-        if (filename == null || filename.equals("")){
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> System.out.println("\n" + Commands.save(steal.clubni, filename))));
+        if (filename == null || filename.equals("")) {
             System.out.println("Не корректно задано значения для filename");
             Runtime.getRuntime().exit(5);
         }
@@ -43,7 +42,7 @@ public class Process {
                         System.out.println("Нужно добавить элемент... Формат: {\"num\":<int>,\"weight\":<int>}, вместо <type> значение типа type");
                         break;
                     }
-                    steal.clubni = Commands.remove_greater(strsc.nextLine().replace(" ",""), steal.clubni);
+                    steal.clubni = Commands.remove_greater(strsc.nextLine().replace(" ", ""), steal.clubni);
                     break;
                 }
                 case "add_if_max": {
@@ -51,7 +50,7 @@ public class Process {
                         System.out.println("Нужно добавить элемент...");
                         break;
                     }
-                    steal.clubni = Commands.add_if_max(strsc.nextLine().replace(" ",""), steal.clubni);
+                    steal.clubni = Commands.add_if_max(strsc.nextLine().replace(" ", ""), steal.clubni);
                     break;
                 }
                 case "show_elements": {
@@ -81,7 +80,7 @@ public class Process {
                 default: {
                     if (newLine.contains("add_if_max")) {
                         System.out.println("Возможно неверный формат команды \"add_if_max\"...(help)");
-                    } else if (newLine. contains("remove_greater")) {
+                    } else if (newLine.contains("remove_greater")) {
                         System.out.println("Возможно неверный формат команды \"remove_greater\"...(help)");
                     } else {
                         System.out.println("Такой команды нет или некорректный ввод...(help)");

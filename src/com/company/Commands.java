@@ -42,8 +42,9 @@ class Commands {
             } else {
                 newclubni.addFirst(pot);
             }
-        } catch (JsonSyntaxException e) {System.out.println("Некорректный формат элемента... (help_element)");}
-        catch (Exception e) {
+        } catch (JsonSyntaxException e) {
+            System.out.println("Некорректный формат элемента... (help_element)");
+        } catch (Exception e) {
             System.out.println("Ошибка выполнения...");
         }
         return newclubni;
@@ -60,10 +61,9 @@ class Commands {
             System.out.println(jsonStr);
             Potatoes potatoes = gson.fromJson(jsonStr, potatoesType);
             newclubni.removeIf(potatoes1 -> potatoes.getWeight() < potatoes1.getWeight());
-        }catch (JsonSyntaxException e ){
+        } catch (JsonSyntaxException e) {
             System.out.println("Некорректный формат элемента... (help_element)");
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Ошибка выполнения...");
         }
         return newclubni;
@@ -122,14 +122,14 @@ class Commands {
         System.out.println("Формат: {[\"num\":<int>[,\"weight\":<int>]}, вместо <type> значение типа type");
     }
 
-    static void add_default_elements(LinkedList<Potatoes> clubni)throws Exception {
-            clubni.addLast(new Potatoes(3));
-            clubni.addLast(new Potatoes(1));
-            clubni.addLast(new Potatoes(4, 8));
-            clubni.addLast(new Potatoes(2, 2));
-            clubni.sort(
-                    (Potatoes pot1, Potatoes pot2) ->
-                            pot2.getWeight() - pot1.getWeight());
+    static void add_default_elements(LinkedList<Potatoes> clubni) throws Exception {
+        clubni.addLast(new Potatoes(3));
+        clubni.addLast(new Potatoes(1));
+        clubni.addLast(new Potatoes(4, 8));
+        clubni.addLast(new Potatoes(2, 2));
+        clubni.sort(
+                (Potatoes pot1, Potatoes pot2) ->
+                        pot2.getWeight() - pot1.getWeight());
 
     }
 
@@ -144,16 +144,18 @@ class Commands {
         }
         return newclubni;
     }
-    static String save (LinkedList<Potatoes> newclubni, String filename){
+
+    static String save(LinkedList<Potatoes> newclubni, String filename) {
         try {
+            if (filename==null) {throw new FileNotFoundException();}
             FileOutputStream fileOutputStream = new FileOutputStream(filename);
             OutputStreamWriter output = new OutputStreamWriter(fileOutputStream);
             output.write(gson.toJson(newclubni));
             output.close();
             return "Файл сохранен";
-        }catch (FileNotFoundException fileNotFound){
+        } catch (FileNotFoundException fileNotFound) {
             return ("Файл не сохранен, потому что не найден");
-        }catch (IOException ioe){
+        } catch (IOException ioe) {
             return ("Проблема с вводом данных");
         }
     }

@@ -2,6 +2,7 @@ package com.company;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.*;
@@ -12,14 +13,14 @@ import java.util.Scanner;
 class Steal {
     LinkedList<Potatoes> clubni = new LinkedList<>();
 
-    void stealPotatoes(String filename) throws Exception{
+    void stealPotatoes(String filename) throws Exception {
         Scanner sc = new Scanner(System.in);
         GsonBuilder gsonBuilder = new GsonBuilder();
         try {
             FileInputStream fileInputStream = new FileInputStream(filename);
             String json = new BufferedReader(new InputStreamReader(fileInputStream)).readLine();
             System.out.println(filename); //Проверка какая-то (убрать потом)
-            if (json==null || json.equals("")){
+            if (json == null || json.equals("")) {
                 FileOutputStream fileOutputStream = new FileOutputStream(filename);
                 OutputStreamWriter output = new OutputStreamWriter(fileOutputStream);
                 output.write("[]");
@@ -27,26 +28,30 @@ class Steal {
                 json = "[]";
             }
             Gson gson = gsonBuilder.create();
-            Type potatoesListType = new TypeToken<LinkedList<Potatoes>>(){}.getType();
+            Type potatoesListType = new TypeToken<LinkedList<Potatoes>>() {
+            }.getType();
             clubni = gson.fromJson(json, potatoesListType);
             clubni.sort(
                     (Potatoes pot1, Potatoes pot2) ->
                             pot2.getWeight() - pot1.getWeight());
-        }catch (FileNotFoundException e){
+        } catch(JsonSyntaxException ex){
+            System.out.println("Неправильно заданы элементы в файле...");
+            sc.close();
+        }catch (FileNotFoundException e) {
             System.out.print("Файла нет, но я могу создать :) Создать? (yes/no) ");
             if (sc.hasNext()) {
-                String answer =sc.next();
+                String answer = sc.next();
                 if (answer.equals("yes")) {
-                    try{
-                        if(!new File(filename).createNewFile()){
+                    try {
+                        if (!new File(filename).createNewFile()) {
                             System.out.println("Файл нельзя создать почему-то...");
-                        }else{
+                        } else {
                             FileOutputStream fileOutputStream = new FileOutputStream(filename);
                             OutputStreamWriter output = new OutputStreamWriter(fileOutputStream);
                             output.write("[]");
                             output.close();
                         }
-                    }catch (Exception es){
+                    } catch (Exception es) {
                         System.out.println("Файл нельзя создать, что-то пошло не так...");
                         sc.close();
                     }
@@ -55,7 +60,7 @@ class Steal {
                     sc.close();
                 }
             }
-        }catch (Exception es){
+        } catch (Exception es) {
             System.out.println("one" + es);
         }
     }

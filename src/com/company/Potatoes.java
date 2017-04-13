@@ -27,11 +27,13 @@ class Potatoes {
     void setWeight(int weight) {
         this.weight = weight;
     }
-    int getNum(){
+
+    int getNum() {
         return this.num;
     }
-    void setNum(int num){
-        this.num=num;
+
+    void setNum(int num) {
+        this.num = num;
     }
 
 }
